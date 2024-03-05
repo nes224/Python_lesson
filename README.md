@@ -118,43 +118,137 @@ person.person_info()
 
 การปกป้อง attribute
 เพื่อปกป้องกันการเข้าถึงจากภายนอกกำหนด attribute เป็น Private โดย python จะใช้ชื่อ attribute นำหน้าด้วยอักษรขีดเส้นใต้สองขีดเรียกว่า
-ดันเดอร์ Double Underscore, Dunder จาก attribute name, height, weight เป็น public เปลี่ยนเป็น private ได้โดย __name, __height, __weight
+ดันเดอร์ Double Underscore, Dunder จาก attribute name, height, weight เป็น public เปลี่ยนเป็น private ได้โดย **name, **height, **weight
 class Person:
-    def __init__(self):
-        self.__name = ''
-        self.__height = 0
-        self.__weight = 0
+def **init**(self):
+self.**name = ''
+self.**height = 0
+self.**weight = 0
 
 หากต้องการเข้าถึง attribute จะใช้แบบทางออ้อมดดยเรียกผ่าน method ที่กำหนดขึ้นมาให้จัดการแทน เรียกว่าการส่งผ่านข้อมูล (Message Passing)
 
-Method Getter and Setter 
+Method Getter and Setter
 เมื่อปกป้องข้อมูลให้ attributeเป็น private ภายนอก class หากต้องการใช้งานต้องเข้าถึงทางออ้อมโดยผ่าน method ที่เป็น public เรียกว่า method getter and setter, method getter ทำหน้าที่ส่งค่าของ attribute คืนกลับไปให้ภายนอก class นำไปใช้งาน นิยมให้ชื่อว่า method มีคำว่า get นำหน้าด้วยชื่อ attribute ที่ส่งค่าคืนกลับไปให้ ช่วยให้เข้าใจสื่อความหมาย ปกติไม่กำหนด parameter รับค่า
 class Person:
-    def get_name(self):
-        return self.__name
-    
+def get_name(self):
+return self.\_\_name
+
     def get_height(self):
         return self.__height
-    
+
     def get_weight(self):
         return self.__weight
 
 การใช้ method getter เพื่อยืนยันว่าภายนอก class รับค่า attribute ไปใช้งานได้อย่างเดียวไม่สามารถเปลี่ยนแปลงแก้ไขค่าได้ ส่วน method setter ทำหน้าที่รับค่าจากภายนอกให้กับ attribute เก็บไว้โดยกำหนด parameter ใช้รับค่าเข้ามา นิยมให้ชื่อ method มีคำว่า set นำหน้าชื่อ attribute ที่ต้องการเก็บค่าช่วยสื่อควาหมาย
 class Person:
-    def set_name(self, name):
-        self.__name = name
-    
+def set_name(self, name):
+self.\_\_name = name
+
     def set_height(self, height):
         self.__height = height
-    
+
     def set_weight(self, weight):
         self.__weight = weight
 
-การเก็บค่า attribute ผ่าน method setter ยังช่วงปกป้องข้อมูลกรณีค่าที่ส่งเข้ามาให้ไม่ถูกต้อง เช่น attribute __height กำหนดค่าความสูงน้อยกว่า 50 เขียน method ให้ตรวจสอบความถูกต้องของค่าที่รับเข้ามาก่อนนำไปเก็บไว้
+การเก็บค่า attribute ผ่าน method setter ยังช่วงปกป้องข้อมูลกรณีค่าที่ส่งเข้ามาให้ไม่ถูกต้อง เช่น attribute **height กำหนดค่าความสูงน้อยกว่า 50 เขียน method ให้ตรวจสอบความถูกต้องของค่าที่รับเข้ามาก่อนนำไปเก็บไว้
 class Person:
-    def set_height(set, height):
+def set_height(set, height):
+if height >= 50:
+self.**height = height
+else:
+print('Invalid height.')
+
+พร็อพเพอตี้
+การปกป้องข้อมูลโดย attribute เป็น private ภายนอก class เข้าถึงโดยผ่าน method getter and setter อาจไม่สะดวก หากต้องการเข้าถึง attribute โดยตรงแบบ public และยังคงมีการปกป้องข้อมูลแบบเดียวกับ method getter and setter จะนำ Property มาใช้โดยนำทั้งสองแบบมารวมกันทำให้ method ถูกมองเหมือนเป็น attribute
+
+class Person:
+@property
+def name(self):
+return self.\_\_name
+
+    @property
+    def height(self):
+        return self.__height
+
+    @property
+    def weight(self):
+        return self.__weight
+
+property name, height, weight ทำงานแบบเดียวกันกับ method getter แต่เรียกใช้งานเป็นชื่อ instance ตามด้วยตัวดำเนินการ . การใช้ชื่อ property มีลักษณะแบบเดียวกับการเข้าถึง attribute แบบ public
+
+เมื่อ property ที่มี method getter ก็ต้องมั property ที่เป็น method setter ด้วยเช่นกัน เป็นการใช้ เดคคอร์เรเตอร์
+@property_name.setter (property_name คือชื่อ property เป็น method getter)
+class Person:
+@name.setter
+def name(self, name):
+self.\_\_name = name
+
+    @height.setter
+    def height(self, height):
         if height >= 50:
             self.__height = height
         else:
             print('Invalid height.')
 
+    @weight.setter
+    def weight(self, weight):
+        if weight >= 3:
+            self.__weight = weight
+        else:
+        print('Invalid weight.)
+
+Property เป็น method setter ที่มีชื่อเดียวกับ property method getter เมื่อส่งค่าให้ attribute เก็บไว้เป็นการใช้ชื่อ instance ตามด้วยตัวดำเนินการ . และชื่อ property พร้อมกับค่าที่ส่งให้
+person2.name = 'Chaiyanan Pagdee'
+person2.height = 176
+person2.weight = 74
+การสร้างproperty ดังกล่าวอาจยุ่งยากหากให้ class มีทั้ง method getter และ property ด้วย จะใช้การประกาศสร้าง property โดยรับค่า argument เข้ามาเป็น method getter setter มีอยู่แล้ว
+name = property( get_name, set_name )
+height = property( get_height, set_height )
+weight = property( get_weight, set_weight )
+ได้ property name, height, weight ใช้แบบเดียวกับตัวอย่างที่ผ่านมา และภายนอก class ยังสามารถเข้าถึง attribute ได้ทั้งสองแบบ
+person1.name = 'Worapong Tanasilp'
+person1.set_height(179)
+person1.weight=82
+
+คอนสตรักเตอร์และดีสตรักเตอร์
+python กำหนด method **init**() ทำหน้าเป็น Constructor ให้กับ class เพื่อประกาศ attribute ให้กับ object
+และกำหนด method **del**() ทำหน้าเป็นดีสตรักเตอร์ (destructor) ให้ class คืนทรัพยากรที่ขอมาจากระบบเมื่อ object ถูกทำลาย
+
+สมาชิก Class
+python มี attribute และ method เป็นของ object ที่ประกาศสร้างขึ้นมาเรียกว่า instance attribute ซึ่งมีคำว่า self นำหน้า
+และ instance method คำว่า self เป็น parameter ตัวแรก ยังมี attribute และ method ที่เป็นของ class สามารถเรียกใช้งานโดยไม่ต้องมี object
+ประกาศสร้างขึ้นมาก่อนและ object ทั้งหมดเรียกมาใช้ร่วมกันได้เรียกว่า class attribute ส่วน method แบ่งเป็นสแตติกเมธอด (Static Method)
+และ class method (class method)
+
+class attribute
+instacne attribute เก็บค่าให้แต่ละ object กำหนดขึ้นใน constructor มีตำว่า self นำหน้า มีหลายตัวตามจำนวน
+object ส่วน class attribute กำหนดขึ้นเป็นของ class ไม่มีคำว่า self นำหน้า มีเพียงตัวเดียวให้แต่ละ object เรียก
+ใช้งานร่วมกันได้ class attribute เป็นแบบเดียวกับตัวแปรทั่วไปกำหนดอยู่นอก method และ constructor มีคุณสทบัติ
+เป็น public ภายนอก class มองเห็นเรียกใช้งานได้โดยตรง
+class Circle:
+PI = 3.14159
+object_count = 0
+
+    def __init__(self, radius):
+        self.__radius = radius
+        Circle.object_count += 1
+
+    def get_area(self):
+        return Circle.PI * self.__radius * self.__radius
+
+    def __del__(self):
+        Circle.object_count -= 1
+
+สแตติก method
+python มี method 2 แบบเรียกมาใช้งานโดยไม่ต้องประกาศสร้าง object ขึ้นมาก่อน แบบแรกคือ static method เป็นของ class ให้แต่ละ object เรียกใช้งานร่วมกันได้ การกำหนดเหมือนกับ general function ไม่มีคำว่า self เป็น parameter ตัวแรก แต่มี decorator @staticmethod
+กำหนดไว้ก่อนหน้า method เพื่อให้ interpreter ได้ทราบ
+class Circle:
+    @staticmethod
+    def area( radius ):
+        return Circle.PI * redius * radius
+    
+    @staticmethod
+    def circumference( radius ):
+        return 2 * Circle.PI * radius
+    
+    
