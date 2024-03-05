@@ -243,12 +243,89 @@ object_count = 0
 python มี method 2 แบบเรียกมาใช้งานโดยไม่ต้องประกาศสร้าง object ขึ้นมาก่อน แบบแรกคือ static method เป็นของ class ให้แต่ละ object เรียกใช้งานร่วมกันได้ การกำหนดเหมือนกับ general function ไม่มีคำว่า self เป็น parameter ตัวแรก แต่มี decorator @staticmethod
 กำหนดไว้ก่อนหน้า method เพื่อให้ interpreter ได้ทราบ
 class Circle:
-    @staticmethod
-    def area( radius ):
-        return Circle.PI * redius * radius
-    
+@staticmethod
+def area( radius ):
+return Circle.PI _ redius _ radius
+
     @staticmethod
     def circumference( radius ):
         return 2 * Circle.PI * radius
+
+Class method
+class method เป็นของ class เช่นกันเรียกมาใช้งานโดยไม่ต้องประกาศสร้าง object ก่อน class method
+ใช้งานแบบเดียวกับ static method แต่มีจุดมุ่งหมายแตกต่างกัน static method กำหนดให้เป็นการทำงานของ class โดยไม่
+มี object มาเกี่ยวของ เช่นตัวอย่าง class Circle มี static method area() และ circumference() หาพื้นที่และเส้นรอบ
+วงของวงกลมใดๆไม่ต้องเป็น object
+ส่วน class method มีจุดประสงค์อย่างหนึ่งคือใช้เป็น Factory Method เป็น method ใช้ประกาศ
+ส่วน object มีชนิดข้อมูลต่างกันหรือ attribute ต่างกันส่งคืนกลับมาให้ โดยมีตัวแปร instance รอรับนำไปใช้งาน การ
+กำหนด class method มี decorator @classmethod กำหนดไว้ก่อนหน้าและมี parameter ตัวแรกคือ cls เป็นการส่ง
+ผ่าน class ที่ใช้อยู่ขณะนั้นมาให้แต่ใช้ keyword class ไม่ได้จึงใช้ cls แทนนำมาประกาศสร้าง object
+class Circle:
+@classmethod
+def from_area(cls, area):
+radius = math.sqrt(area/Circle.PI)
+return cls(radius)
+
+    @classmethod
+    def from_circumference(cls, circumference):
+        radius = circumference / Circle.PI / 2
+        return cls(radius)
+
+classmethod from_area() และ from_curcumference() มี parameter ตัวแรกคือ cls รับค่าเป็น class Circle
+เข้ามาอัตโนมัติโดยไม่ต้องส่งค่า argument มีพารามิเตอร์ถัดมาคือ area และ circumference รับค่า argument เป็นขนาดพื้นที่และความยาว
+เส้นรอบวงใช้คำนวณหาค่ารัศมีและนำมาประกาศสร้าง object ส่งคืนกลับมาให้กับ instance ที่รอรับใช้งาน
+circle1 = Circle.from_area(314.159)
+circle2 = Circle.from_circumference(125.6636)
+
+การสืบทอด
+การเขียนโปรแกรม oop มีหลัการ encalsulation ยังมีหลัการ inheritance เป็นการนำกลับมาใช้ใหม่ Reusable โดยให้ object หนึ่ง
+ขอคุณสมบัติของ object อื่นมาใช้ class ที่ถ่ายทอดคุณสมบัติให้เรียกว่า super class ส่วน class ที่ได้รับคุณสมบัติจากการถ่ายทอดลงมาเรียกว่า sub class และ super class ของ class อื่นที่ถ่ายทอดต่อลงมาเป็น sub class
+ในลักษณะระดับชั้น super class มีคุณสมบัติทั่วไป Generalize เมื่อถ่ายทอดให้ sub class และเพิ่มเติมคุณสมบัติใหม่เกิดความ
+แตกต่างเป็นคุณสมบัติเฉพาะ Specialize ซึ่งเป็นหลักการนำกลับมาใช้ใหม่ การสืบทอดใน python มีโครงสร้างดังนี้
+
+class super_class:
+attributes_super_class
+methods_super_class
+class sub_class( super_class ):
+attributes_super_class # attributes get by derive from super_class
+methods_super_class # methods get by derive from super_class
+attributes_sub_class # attributes declared in sub_class
+methods_sub_class # methods defined in sub_class
+
+sub class สืบทอดจ่ก super class กำหนดในสัญลักษณ์ และ ต่อจากชื่อ sub class เป็นการถ่ายทอดคุณสมบัติ attributes_super_class และ
+methods_super_class มาให้และเพิ่มคุณสมบัติใหม่ attributes_sub_class และ methods_sub_class 
+class Point:
+    def __init__(self, x, y):
+        self.__x = x
+        self.__y = y
     
+    def set_point(self, x=0, y=0):
+        pass
     
+    def get_x(self):
+        pass
+    
+    def get_y(self):
+        pass
+    
+    def __str__(self):
+        pass
+
+class point กำหนด attributes __x, __y เป็น private มี method set_point(), get_x(), get_y(), __str__()
+เป็น super class นำคุณสมบัติถ่ายทอดให้กับ class Line สืบทอดลงมาเป็น sub class ก็จะได้ attribute และ method มาใช้งาน
+
+class Line( Point ):
+    def __init__(self, x, y, length):
+        Point.__init__(self, x, y)
+        self.__length = length
+    
+    def set_line(self, x=0, y=0, length=0 ):
+        Point.set_point(self, x, y)
+        if length > 0:
+            self.__length = length
+    
+    def __str__(self):
+        return Point.__str__(self) + ', length:{}'.format( self.__length )
+
+class line สืบทอดจาก class Point ใช้ constructor class Point กำหนด attributes __x, __y และเพิ่ม attributes __length ทำให้ class line
+ได้ตำแหน่งสุดที่สืบทอดลงมาและมีความยาวเส้น เนื่องจาก attribute __x, __y เป็น private เข้าถึงข้อมูฐต้องผ่าน constructor และ method ของ super class ที่ชื่อ superclass และกำหนดคำว่า self หมายถึง object ของ sub class เป็น parameter ตัวแรก
