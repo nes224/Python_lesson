@@ -26,4 +26,5 @@ class Person:
     def get_weight(self):
         return self.__weight
 
-    
+    def person_info(self):
+        return 'Name: {}, Height: {}, Weight: {}'.format(self.__name,self.__height,self.__weight)
