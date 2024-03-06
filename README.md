@@ -292,7 +292,7 @@ methods_super_class # methods get by derive from super_class
 attributes_sub_class # attributes declared in sub_class
 methods_sub_class # methods defined in sub_class
 
-sub class สืบทอดจ่ก super class กำหนดในสัญลักษณ์ และ ต่อจากชื่อ sub class เป็นการถ่ายทอดคุณสมบัติ attributes_super_class และ
+sub class สืบทอดจาก super class กำหนดในสัญลักษณ์ และ ต่อจากชื่อ sub class เป็นการถ่ายทอดคุณสมบัติ attributes_super_class และ
 methods_super_class มาให้และเพิ่มคุณสมบัติใหม่ attributes_sub_class และ methods_sub_class 
 class Point:
     def __init__(self, x, y):
@@ -328,4 +328,11 @@ class Line( Point ):
         return Point.__str__(self) + ', length:{}'.format( self.__length )
 
 class line สืบทอดจาก class Point ใช้ constructor class Point กำหนด attributes __x, __y และเพิ่ม attributes __length ทำให้ class line
-ได้ตำแหน่งสุดที่สืบทอดลงมาและมีความยาวเส้น เนื่องจาก attribute __x, __y เป็น private เข้าถึงข้อมูฐต้องผ่าน constructor และ method ของ super class ที่ชื่อ superclass และกำหนดคำว่า self หมายถึง object ของ sub class เป็น parameter ตัวแรก
+ได้ตำแหน่งสุดที่สืบทอดลงมาและมีความยาวเส้น เนื่องจาก attribute __x, __y เป็น private เข้าถึงข้อมูลต้องผ่าน constructor และ method ของ super class ที่ชื่อ superclass และกำหนดคำว่า self หมายถึง object ของ sub class เป็น parameter ตัวแรก
+Point.__init__(self, x, y)
+...
+Point.set_point(self, x, y)
+หรือใช้ function super() อ้างอิงไปยัง super class และไม่ต้องกำหนดคำว่า self
+super().__init__( x, y )
+...
+super().set_point( x, y )
