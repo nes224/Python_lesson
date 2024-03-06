@@ -358,3 +358,26 @@ class Linr( Point ):
 
 การเข้าถึงข้อมูลโดยตรงนำมาใช้กรณีต้องการจัดการกับ attribute เพียงบางตัว แต่ยังคงใช้การเข้าถึงข้อมูลผ่าน constructor และ method ของ super class ในแบบ private ซึ่งจะสะดวกกว่า
     
+การสืบทอดหลายคลาส
+การสืบทอดใน python ใน sub class มี super class ได้หลาย class เรียกว่าการสืบทอดหลายคลาส Multiple Inheritance 
+ทำให้ sub class มี attribute ได้จากหลาย class รวมกัน
+
+class sub_class( super_class1, super_class2, super_class3, ...):
+    attributes_and_method_super_class1
+    attributes_and_method_super_class2
+    attributes_and_method_super_class3
+    ...
+    attributes_and_method_super_class(n)
+
+sub class inheritance จากหลาย super class แยกคั่นด้วย , รวมอยู่ในสัญลักษณ์ และ จึงได้
+คุณสมบัติจาก super class ทั้งหมดถ่ายทอดมาให้ใช้งาน
+
+class Cylinder ( Circle, Line ):
+    def __init__(self, radius, x, y, length ):
+        Circle.__init__(self, radius )
+        Line.__init__(self,x,y,length)
+
+Class Cylinder มีคุณสมบัติเป็นรูปทรงกระบอก inheritance from class Circle and Line อยู่ใน module CircleClass 
+และ InheriteLine โดย constructor เรียกใช้ constructor ของ class Circle กำหนด attribute __radius 
+และ constructor ของ class Line กำหนด attribute __x, __y, __length ได้เป็นรูปทรงกระบอก
+
