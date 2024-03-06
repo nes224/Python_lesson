@@ -336,3 +336,25 @@ Point.set_point(self, x, y)
 super().__init__( x, y )
 ...
 super().set_point( x, y )
+
+เนื่องจาก attribute class Point เป็น private ทำให้ class Line ที่ Inheritance ไม่สะดวกเข้าถึงข้อมูล จึงเปลี่ยน attribute class Point เป็น Protected ทำให้ sub class เข้าถึงข้อมูล super class โดยตรงแบบ public และภายนอก class ยังเป็น private attribute point เป็น protect นำหน้าชื่อด้วยตัวอักษรขีดเส้นใต้หนึ่งขัด Single Underscore การกำหนด attribute class Point
+
+class Point:
+    def __init__(self, x, y):
+        self._x = x
+        self._y = y
+
+class Line inheritance ลงมาสามารถเข้าถึง attribute __x, __y ได้โดยตรง เช่น method set_line() ในการทำงาน
+เข้าถึงได้โดยตรงไม่ต้องผ่าน method set_point()
+
+class Linr( Point ):
+    def set_line(self, x=0, y=0, length=0 ):
+        if x > 0:
+            self._x = x
+        if y > 0:
+            self._y = y
+        if length > 0:
+            self.__length = length
+
+การเข้าถึงข้อมูลโดยตรงนำมาใช้กรณีต้องการจัดการกับ attribute เพียงบางตัว แต่ยังคงใช้การเข้าถึงข้อมูลผ่าน constructor และ method ของ super class ในแบบ private ซึ่งจะสะดวกกว่า
+    
