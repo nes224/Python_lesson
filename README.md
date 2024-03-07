@@ -416,3 +416,25 @@ class Cylinder():
 
 class Cylinder มี constructor กำหนด attribute __circle อ้างอิงไปยัง object ที่สร้างจาก class Circle attribute __line
 อ้างอิงไปยัง object สร้างจาก class Line ทำหน้าที่เป็น aggregate อยู่ภายนอก class Cylinder
+
+การมีหลายรูปแบบ
+การมีได้หลายรูปแบบหรือ Polymorphism เป็นหลักการเขียนโปรแกรม oop อีกแบบ ที่ให้การทำงานหนึ่งมีรายละเอียดการทำงานที่แตกต่างกันได้หลายรูปแบบ
+มีสองรูปแบบนำมาใช้คือการ Overriding และ การ Overloading ซึ่ง Python มีแต่การ Overload ตัวดำเนินการ Operator Overloading
+
+Overriding
+การ Overriding ใช้เมื่อมีการสืบทอดเพื่อเปลี่ยนการทำงาน sub class แตกต่างจาก super class โดยให้ method sub class เขียนทับหรือปิดบัง method super class ที่มีชื่อเหมือนกัน เปลี่ยนการทำงานจากที่เป็นของ super class ให้เป็น sub class เช่น class Circle กับ class Cylinder
+มี method get_area() ให้ override ใน class Cirlce ใช้หาพื้นที่วงกลม ส่วน class Cylinder ใช้หาพื้นที่รูปทรงกระบอก
+
+class Mammal:
+    def make_sound(self):
+        return '-Grrrrr'
+    
+class Dog( Mammal ):
+    def make_sound(self):
+        return '-Woof! Woof!'
+
+class Cat( Mammal ):
+    def make_sound(self):
+        return '-Meow'
+
+super class Mammal สืบทอดลงมาเป็น sub class Dog และ Cat โดย method make_sound() เป็นการ override ให้การทำงานต่างกันถูกต้องเป็นไปตามของ class นั้นๆ
