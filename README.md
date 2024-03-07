@@ -293,91 +293,109 @@ attributes_sub_class # attributes declared in sub_class
 methods_sub_class # methods defined in sub_class
 
 sub class สืบทอดจาก super class กำหนดในสัญลักษณ์ และ ต่อจากชื่อ sub class เป็นการถ่ายทอดคุณสมบัติ attributes_super_class และ
-methods_super_class มาให้และเพิ่มคุณสมบัติใหม่ attributes_sub_class และ methods_sub_class 
+methods_super_class มาให้และเพิ่มคุณสมบัติใหม่ attributes_sub_class และ methods_sub_class
 class Point:
-    def __init__(self, x, y):
-        self.__x = x
-        self.__y = y
-    
+def **init**(self, x, y):
+self.**x = x
+self.**y = y
+
     def set_point(self, x=0, y=0):
         pass
-    
+
     def get_x(self):
         pass
-    
+
     def get_y(self):
         pass
-    
+
     def __str__(self):
         pass
 
-class point กำหนด attributes __x, __y เป็น private มี method set_point(), get_x(), get_y(), __str__()
+class point กำหนด attributes **x, **y เป็น private มี method set_point(), get_x(), get_y(), **str**()
 เป็น super class นำคุณสมบัติถ่ายทอดให้กับ class Line สืบทอดลงมาเป็น sub class ก็จะได้ attribute และ method มาใช้งาน
 
 class Line( Point ):
-    def __init__(self, x, y, length):
-        Point.__init__(self, x, y)
-        self.__length = length
-    
+def **init**(self, x, y, length):
+Point.**init**(self, x, y)
+self.\_\_length = length
+
     def set_line(self, x=0, y=0, length=0 ):
         Point.set_point(self, x, y)
         if length > 0:
             self.__length = length
-    
+
     def __str__(self):
         return Point.__str__(self) + ', length:{}'.format( self.__length )
 
-class line สืบทอดจาก class Point ใช้ constructor class Point กำหนด attributes __x, __y และเพิ่ม attributes __length ทำให้ class line
-ได้ตำแหน่งสุดที่สืบทอดลงมาและมีความยาวเส้น เนื่องจาก attribute __x, __y เป็น private เข้าถึงข้อมูลต้องผ่าน constructor และ method ของ super class ที่ชื่อ superclass และกำหนดคำว่า self หมายถึง object ของ sub class เป็น parameter ตัวแรก
-Point.__init__(self, x, y)
+class line สืบทอดจาก class Point ใช้ constructor class Point กำหนด attributes **x, **y และเพิ่ม attributes **length ทำให้ class line
+ได้ตำแหน่งสุดที่สืบทอดลงมาและมีความยาวเส้น เนื่องจาก attribute **x, **y เป็น private เข้าถึงข้อมูลต้องผ่าน constructor และ method ของ super class ที่ชื่อ superclass และกำหนดคำว่า self หมายถึง object ของ sub class เป็น parameter ตัวแรก
+Point.**init**(self, x, y)
 ...
 Point.set_point(self, x, y)
 หรือใช้ function super() อ้างอิงไปยัง super class และไม่ต้องกำหนดคำว่า self
-super().__init__( x, y )
+super().**init\_\_( x, y )
 ...
 super().set_point( x, y )
 
 เนื่องจาก attribute class Point เป็น private ทำให้ class Line ที่ Inheritance ไม่สะดวกเข้าถึงข้อมูล จึงเปลี่ยน attribute class Point เป็น Protected ทำให้ sub class เข้าถึงข้อมูล super class โดยตรงแบบ public และภายนอก class ยังเป็น private attribute point เป็น protect นำหน้าชื่อด้วยตัวอักษรขีดเส้นใต้หนึ่งขัด Single Underscore การกำหนด attribute class Point
 
 class Point:
-    def __init__(self, x, y):
-        self._x = x
-        self._y = y
+def **init**(self, x, y):
+self.\_x = x
+self.\_y = y
 
-class Line inheritance ลงมาสามารถเข้าถึง attribute __x, __y ได้โดยตรง เช่น method set_line() ในการทำงาน
+class Line inheritance ลงมาสามารถเข้าถึง attribute **x, **y ได้โดยตรง เช่น method set_line() ในการทำงาน
 เข้าถึงได้โดยตรงไม่ต้องผ่าน method set_point()
 
 class Linr( Point ):
-    def set_line(self, x=0, y=0, length=0 ):
-        if x > 0:
-            self._x = x
-        if y > 0:
-            self._y = y
-        if length > 0:
-            self.__length = length
+def set_line(self, x=0, y=0, length=0 ):
+if x > 0:
+self.\_x = x
+if y > 0:
+self.\_y = y
+if length > 0:
+self.\_\_length = length
 
 การเข้าถึงข้อมูลโดยตรงนำมาใช้กรณีต้องการจัดการกับ attribute เพียงบางตัว แต่ยังคงใช้การเข้าถึงข้อมูลผ่าน constructor และ method ของ super class ในแบบ private ซึ่งจะสะดวกกว่า
-    
+
 การสืบทอดหลายคลาส
-การสืบทอดใน python ใน sub class มี super class ได้หลาย class เรียกว่าการสืบทอดหลายคลาส Multiple Inheritance 
+การสืบทอดใน python ใน sub class มี super class ได้หลาย class เรียกว่าการสืบทอดหลายคลาส Multiple Inheritance
 ทำให้ sub class มี attribute ได้จากหลาย class รวมกัน
 
 class sub_class( super_class1, super_class2, super_class3, ...):
-    attributes_and_method_super_class1
-    attributes_and_method_super_class2
-    attributes_and_method_super_class3
-    ...
-    attributes_and_method_super_class(n)
+attributes_and_method_super_class1
+attributes_and_method_super_class2
+attributes_and_method_super_class3
+...
+attributes_and_method_super_class(n)
 
 sub class inheritance จากหลาย super class แยกคั่นด้วย , รวมอยู่ในสัญลักษณ์ และ จึงได้
 คุณสมบัติจาก super class ทั้งหมดถ่ายทอดมาให้ใช้งาน
 
 class Cylinder ( Circle, Line ):
+def **init**(self, radius, x, y, length ):
+Circle.**init**(self, radius )
+Line.**init**(self,x,y,length)
+
+Class Cylinder มีคุณสมบัติเป็นรูปทรงกระบอก inheritance from class Circle and Line อยู่ใน module CircleClass
+และ InheriteLine โดย constructor เรียกใช้ constructor ของ class Circle กำหนด attribute **radius
+และ constructor ของ class Line กำหนด attribute **x, **y, **length ได้เป็นรูปทรงกระบอก
+
+การสืบทอดหลาย Class มี super class จำนวนมากและ complex ทำให้เกิดปัญหาเรียกว่า Diamond Problem เมื่อ sub class
+ได้คุณสมบัติจาก super class ที่เป็นตัวเดียวกันจะมีคุณสมบัติซ้ำกันมากกว่าหนึ่ง เช่น คลาส D
+ได้รับคุณสมบัติจาก class A สองชุด aa ถ่ายทอดผ่าน class B และ C ซึ่งทั้งสองมี attribute a ทำให้ class D มี attribute aa สองตัว
+เพื่อหลีกเลี่ยงปัญหาการสืบทอด multi class จึงเปลี่ยนให้ super class มาเป็นส่วนประกอบของ sub class โดยการผ่าน object ที่กำหนดเป็น
+attribute sub class ทำให้ sub class มีคุณสมบัติ super class ได้มาโดยทางอ้อม การกำหนด มีได้สองแบบ คือ Composition และ Aggregation
+
+Composition
+เป็นการนำคุณสมบัติ super class ใช้เป็นส่วนประกอบโดยผ่าน object แบบ composition สร้างเป็น attribute ใน sub class
+เมื่อ object sub class ถูกทำลายจะทำให้ object composition ถูกทำลายไปด้วย อย่างเช่น object window ซึ่ง มี object
+Button และ TextBox ถูกทำลายไปด้วย
+
+class Cylinder():
     def __init__(self, radius, x, y, length ):
-        Circle.__init__(self, radius )
-        Line.__init__(self,x,y,length)
+        self.__circle = Circle(radius)
+        self.__line = Line( x, y, length)
 
-Class Cylinder มีคุณสมบัติเป็นรูปทรงกระบอก inheritance from class Circle and Line อยู่ใน module CircleClass 
-และ InheriteLine โดย constructor เรียกใช้ constructor ของ class Circle กำหนด attribute __radius 
-และ constructor ของ class Line กำหนด attribute __x, __y, __length ได้เป็นรูปทรงกระบอก
-
+class Cylinder มี constructor กำหนด attribute __circle เป็น object สร้างจาก class Circle และ attribute __line 
+เป็น object สร้างจาก class Line ทำหน้าที่เป็น composition อยู่ภายใน class Cylinder 
