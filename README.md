@@ -399,3 +399,20 @@ class Cylinder():
 
 class Cylinder มี constructor กำหนด attribute __circle เป็น object สร้างจาก class Circle และ attribute __line 
 เป็น object สร้างจาก class Line ทำหน้าที่เป็น composition อยู่ภายใน class Cylinder 
+
+Aggregation
+อีกรูปแบบนำคุณสมบัติ super class ใช้เป็นส่วนประกอบผ่าน object แบบ aggregation เป็นการให้ attribute ของ sub class อ้างอิง
+ไปยัง object super class สร้างขึ้นมาจากภายนอกนำมาใช้เป็น aggregation เมื่อ object sub class ถูกทำลายไป object ที่เป็น
+aggregation ยังคงมีชีวิตอยู่ใช้งานต่อไปได้ เช่น object Window มี object Printer อ้างอิงใช้เป็นส่วนประกอบแบบ aggregation เมื่อ
+object Window ถูกทำลายแต่ object Printer ยังคงมีชีวิตให้ object window อื่นอ้างอิงใช้งานต่อได้
+
+circle = Circle( radius = 23 )
+line = Line( x=101, y=89, length=6 )
+
+class Cylinder():
+    def __init__(self, circle, line ):
+        self.__circle = circle
+        self.__line = line
+
+class Cylinder มี constructor กำหนด attribute __circle อ้างอิงไปยัง object ที่สร้างจาก class Circle attribute __line
+อ้างอิงไปยัง object สร้างจาก class Line ทำหน้าที่เป็น aggregate อยู่ภายนอก class Cylinder
