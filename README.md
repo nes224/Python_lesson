@@ -438,3 +438,26 @@ class Cat( Mammal ):
         return '-Meow'
 
 super class Mammal สืบทอดลงมาเป็น sub class Dog และ Cat โดย method make_sound() เป็นการ override ให้การทำงานต่างกันถูกต้องเป็นไปตามของ class นั้นๆ
+
+การ Overload ตัวดำเนินการ
+เบื้องต้นตัวดำเนินการใช้กับชนิดข้อมูลเก็บเพียงค่าเดียวใช้กับชนิดข้อมูลเก็บหลายค่าหรือซับซ้อนไม่ได้เช่น class เพื่อให้
+ตัวดำเนินการใช้กับ class จะต้องทำการ overload เนื่องจาก python ไม่มีวิธีดังกล่าวแต่มี method special หรือ Magic method
+เป็นตัวดำเนินการ overload กำหนดมาให้ขึ้นต้นและปิดท้ายด้วยตัวอักษรดันเดอร์ __ ทำให้ class ตัวดำเนินการมีลักษณะแบบเดียวกับขนิดข้อมูลเก็บค่าเดียว เช่นคลาส Point สร้าง object point1 และ point2 
+นำมาบวกกันเก็บไว้ที่ point3 
+point3 = point1 + point2
+class point ต้อง overload ตัวดำนเนิการ + โดยใช้ method overload __add__()
+
+class Point:
+    def __add__(self, other):
+        x = self.__x + other.get_x()
+        y = self.__y + other.get_y()
+        return Point( x, y )
+
+ class Point เพิ่ม method overload __add__() โดยนำ attribute __x และ __y ของตนเองคือ self บวกกับ 
+ ของ object other เก็บไว้ที่ตัวแปร x, y สร้างเป็น object ใหม่ส่งคืนกลับมาให้กับ instance ที่รอรับ
+ point1 = Point( 12, 23 )
+ point2 = Point( 17, 31 )
+ point3 = pont1 + point2
+
+ จากนิพจน์ point1 + point2 ให้ object point1 เป็น self เรียกใช้ method overload __add__() ของตนเองโดยรับ object point2 เข้ามาเป็น other นำค่าของทั้งสอง object บวกกันนำมาสร้างเป็น object ส่งคืนกลับมาให้กับ instance point3
+ python กำหนด method overload ตัวดำเนินการมาให้ล่วงหน้าหลายตัวแบ่งเป็น method overload ตัวดำเนินการคณิตศาสตร์
